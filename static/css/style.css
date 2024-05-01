@@ -1,0 +1,56 @@
+.nav-style {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: gray;
+    width:100%;
+    color:white;
+    padding-left: 20px;
+    
+}
+
+.server-state-busy {
+    display: flex;
+    background: blue;
+    color:red;
+    width:100%;
+    padding-left: 50px;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.server-state-cosy {
+    display: flex;
+    background: blue;
+    color:white;
+    width:100%;
+    padding-left: 50px;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px; 
+    border: 1px solid #000; 
+}
+
+.box {
+    font-size: 10px; 
+    font-family: 'Arial', sans-serif; 
+}
+
+.presend{
+    font-size: 30px; 
+    text-align: center;
+    font-family: 'Arial';
+    color: red;
+}
+
+.transparent-block {
+    width: 200px;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.949); /* 여기서 마지막 값이 투명도를 결정해요 (0은 완전 투명, 1은 완전 불투명) */
+  }
