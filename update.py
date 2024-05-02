@@ -10,6 +10,7 @@ def execute(command: str) -> str:
     return su.check_output(get).decode("utf-8")
 
 
+
 parser = ap.ArgumentParser()
 parser.add_argument(
     "-r", "--reset", help='로드할 git 버전을 선택합니다. 예시 입력: HEAD~1', required=False)
