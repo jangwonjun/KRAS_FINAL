@@ -15,6 +15,7 @@ def login():
         print(id, password)  
 
 
+
         auth_inform = kras_login_system.new_login(id, password)
 
         print("정보")

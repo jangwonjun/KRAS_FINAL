@@ -4,6 +4,7 @@ from flask import Flask, request, redirect, render_template, url_for, session
 
 class login_system():
     def __init__(self):
+        
         pass
     
     def new_login(self,id,password):
