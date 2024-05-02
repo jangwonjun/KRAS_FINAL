@@ -1,9 +1,11 @@
 from flask import Flask, request, redirect, render_template, url_for, session
 from modules.flex import login_system
 from env import FLASK_ENUM, SQL
+from modules.friends import friend_system
 
 app = Flask(__name__, static_url_path='/static')
 app.secret_key = FLASK_ENUM.SECRET_KEY
+
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -15,13 +17,12 @@ def login():
         print(id, password)  
 
 
-
         auth_inform = kras_login_system.new_login(id, password)
 
         print("정보")
         print(auth_inform)
         if auth_inform :
-            next = '로그인성공'
+            next = '로그인ㅊ성공'
             session["username"] = auth_inform[0] #세션에 저장
             session["userid"] = auth_inform[0][1]
             print(next)
@@ -35,6 +36,8 @@ def login():
 
 @app.route('/main')
 def main():
+    friend_system_data = friend_system.recommend(None)
+    print(friend_system_data)
     return render_template('index.html')
 
 if __name__ == '__main__':
