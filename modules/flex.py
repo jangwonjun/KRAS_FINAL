@@ -11,7 +11,7 @@ class login_system():
         self.id = id 
         self.password = password
 
-        print(id,self.password)
+        print(id, self.password)
 
         conn = pymysql.connect(
             host=SQL.HOST, port=SQL.PORT, user=SQL.ID, passwd=SQL.PASSWORD, db=SQL.DB_NAME, charset='utf8'

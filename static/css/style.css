@@ -30,10 +30,10 @@
 }
 
 .container {
-    display: flex;
     justify-content: center;
     align-items: center;
-    height: 300px; 
+    height: 200px;
+    width : 2000px;
     border: 1px solid #000; 
 }
 
@@ -50,7 +50,22 @@
 }
 
 .transparent-block {
-    width: 200px;
+    width: 500px;
     height: 100px;
     background-color: rgba(255, 255, 255, 0.949); /* 여기서 마지막 값이 투명도를 결정해요 (0은 완전 투명, 1은 완전 불투명) */
   }
+
+.lightning {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; 
+    width : 1500px;
+    border: 1px solid #000; 
+}
+
+.content-name {
+    font-size: 30px;
+    text-align: right   !important;
+    font-family: sans-serif;
+}

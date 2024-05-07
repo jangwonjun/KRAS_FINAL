@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href=" {{ url_for('static', filename='css/style.css') }} ">
-
+    <link rel="icon" type="image/x-icon" href="static/img/kras.png" />
     
 
     <title>KRAS - 공강시간 관리어플</title>
@@ -35,32 +35,293 @@
 
     </div>
 
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+     <!-- main.css 연결 -->
+    <link rel="stylesheet" href="static/css/swiper.css">
+    <!-- main.js 연결 -->
+    <script defer src="static/js/swiper.js"></script>
 
-    <section>
+    <style>
+        .recommendation-section {
+    position: relative;
+        }
 
+        .transparent-block {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5); /* transparent white */
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .swiper-slide {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .swiper-pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .swiper-button-prev,
+        .swiper-button-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background-color: #f67e7d;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .swiper-button-prev:hover,
+        .swiper-button-next:hover {
+            background-color: #ee5f5b;
+        }
+
+    </style>
+    
+    <section class="recommendation-section">
         <div class="transparent-block"></div>
-
         <div class="container">
-            <div class="box">
-                
+            <h1>추천친구</h1>
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">{{recommend_friend[0][0]}}</div>
+                    <div class="swiper-slide">{{recommend_friend[1][0]}}</div>
+                    <div class="swiper-slide">{{recommend_friend[2][0]}}</div>
+                    <div class="swiper-slide">{{recommend_friend[3][0]}}</div>
+                </div>
             </div>
         </div>
-          
-        
-
+    </section>
     
 
+    <style>
+        .lightning {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-name {
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-align: left;
+            margin-right : auto;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .content {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            background-color: #f67e7d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #ee5f5b;
+        }
+
+    </style>
+
+    <section>
+        <div class="lightning">
+            <h2 class="content-name">번개약속</h2>
+            <div class="content-name">
+               {{time_table_list[k[0]][0]}}
+            </div>
+            <div class="buttons">
+                <form action="/fix" method="post">
+                    <input type="hidden" name="data" value="{{ time_table_list[k[0]][0] }}">
+                    <button type="submit" class="btn">참여하기</button>
+                </form>
+                <form action="/timetable" method="post">
+                    <button type="submit" class="btn">나의 시간표 보기</button>
+                </form>
+            </div>
+        </div>
     </section>
+    
 
-
-    <ul>
-        <div class="transparent-block"></div>
-        <center>
-        <form action="/message_send", method="post">
-            <button type="submit" class="btn btn-primary btn-lg">문자전송하기</button>
-        </form>
-        </center>
-    </ul>
+    <section>
+        <div class="lightning">
+            <h2 class="content-name">번개약속</h2>
+            <div class="content-name">
+                {{time_table_list[k[1]][0]}}
+            </div>
+            <div class="buttons">
+                
+                <form action="/fix" method="post">
+                    <input type="hidden" name="data" value="{{ time_table_list[k[1]][0] }}">
+                    <button type="submit" class="btn">참여하기</button>
+                </form>
+                <form action="/timetable" method="post">
+                    <button type="submit" class="btn">나의 시간표 보기</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="lightning">
+            <h2 class="content-name">번개약속</h2>
+            <div class="content-name">
+                {{time_table_list[k[2]][0]}}
+            </div>
+            <div class="buttons">
+                <form action="/fix" method="post">
+                    <input type="hidden" name="data" value="{{ time_table_list[k[2]][0] }}">
+                    <button type="submit" class="btn">참여하기</button>
+                </form>
+                <form action="/timetable" method="post">
+                    <button type="submit" class="btn">나의 시간표 보기</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="lightning">
+            <h2 class="content-name">정기약속</h2>
+            <div class="content-name">
+                {{time_table_list[k[3]][0]}}
+            </div>
+            <div class="buttons">
+                <form action="/fix" method="post">
+                    <input type="hidden" name="data" value="{{ time_table_list[k[3]][0] }}">
+                    <button type="submit" class="btn">참여하기</button>
+                </form>
+                <form action="/timetable" method="post">
+                    <button type="submit" class="btn">나의 시간표 보기</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="lightning">
+            <h2 class="content-name">급구</h2>
+            <div class="content-name">
+                {{time_table_list[k[4]][0]}}
+            </div>
+            <div class="buttons">
+                <form action="/fix" method="post">
+                    <input type="hidden" name="data" value="{{ time_table_list[k[4]][0] }}">
+                    <button type="submit" class="btn">참여하기</button>
+                </form>
+                <form action="/timetable" method="post">
+                    <button type="submit" class="btn">나의 시간표 보기</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="lightning">
+            <h2 class="content-name">급구</h2>
+            <div class="content-name">
+                {{time_table_list[k[5]][0]}}
+            </div>
+            <div class="buttons">
+                <form action="/fix" method="post">
+                    <input type="hidden" name="data" value="{{ time_table_list[k[5]][0] }}">
+                    <button type="submit" class="btn">참여하기</button>
+                </form>
+                <form action="/timetable" method="post">
+                    <button type="submit" class="btn">나의 시간표 보기</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="lightning">
+            <h2 class="content-name">급구</h2>
+            <div class="content-name">
+                {{time_table_list[k[7]][0]}}
+            </div>
+            <div class="buttons">
+                <form action="/fix" method="post">
+                    <input type="hidden" name="data" value="{{ time_table_list[k[7]][0] }}">
+                    <button type="submit" class="btn">참여하기</button>
+                </form>
+                <form action="/timetable" method="post">
+                    <button type="submit" class="btn">나의 시간표 보기</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="lightning">
+            <h2 class="content-name">급구</h2>
+            <div class="content-name">
+                {{time_table_list[k[8]][0]}}
+            </div>
+            <div class="buttons">
+                <form action="/fix" method="post">
+                    <input type="hidden" name="data" value="{{ time_table_list[k[7]][0] }}">
+                    <button type="submit" class="btn">참여하기</button>
+                </form>
+                <form action="/timetable" method="post">
+                    <button type="submit" class="btn">나의 시간표 보기</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="lightning">
+            <h2 class="content-name">급구</h2>
+            <div class="content-name">
+                {{time_table_list[k[9]][0]}}
+            </div>
+            <div class="buttons">
+                <form action="/fix" method="post">
+                    <input type="hidden" name="data" value="{{ time_table_list[k[7]][0] }}">
+                    <button type="submit" class="btn">참여하기</button>
+                </form>
+                <form action="/timetable" method="post">
+                    <button type="submit" class="btn">나의 시간표 보기</button>
+                </form>
+            </div>
+        </div>
+    </section>
 
 
     

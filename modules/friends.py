@@ -22,9 +22,7 @@ class friend_system():
         cursor.execute(sql_query)
 
         member = cursor.fetchall()
-        self.member_number = len(member)
-
-        print(self.member_number)
+        print(member)
 
       
         conn.commit()
@@ -33,12 +31,15 @@ class friend_system():
         return member
 
     def recommend(self):
+        final_data = []
         data = friend_system.database(None)
-        for i in range(self.member_number):
-            recommend_friend = data[self.member_number-1+i]
-            print(recommend_friend)
+        print(len(data))
+        for i in range(len(data)):
+            recommend_friend = data[(len(data)-1)-i]
+            print(len(recommend_friend))
+            final_data.append(recommend_friend)
 
-
-        return recommend_friend
+            #배열 형태로 정리가 됨.
+        return data
 
         

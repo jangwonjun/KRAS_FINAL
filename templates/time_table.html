@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+<title>수업 시간표</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .timetable-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-gap: 20px;
+    }
+
+    .timetable-item {
+        border: 1px solid #ccc;
+        padding: 10px;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .timetable-header {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<div class="timetable-container">
+    <div class="timetable">
+        <div class="timetable-item timetable-header">월요일</div>
+            {% for i in range(data | length) %}
+
+                {% if data[i][0] == '1' %}
+                    <div class="timetable-item">{{ data[i][1] }}</div>
+                {% else %}
+                    <div class="timetable-item">공강시간</div>
+                {% endif %}
+            {% endfor %}
+    </div>
+       
+    <div class="timetable">
+        <div class="timetable-item timetable-header">화요일</div>
+        {% for i in range(data | length) %}
+            {% if data[i][0] == '2' %}
+                <div class="timetable-item">{{ data[i][1] }}</div>
+            {% else %}
+                <div class="timetable-item">공강시간</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="timetable">
+        <div class="timetable-item timetable-header">수요일</div>
+        {% for i in range(data | length) %}
+            {% if data[i][0] == '3' %}
+                <div class="timetable-item">{{ data[i][1] }}</div>
+            {% else %}
+                <div class="timetable-item">공강시간</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="timetable">
+        <div class="timetable-item timetable-header">목요일</div>
+        {% for i in range(data | length) %}
+            {% if data[i][0] == '4' %}
+                <div class="timetable-item">{{ data[i][1] }}</div>
+            {% else %}
+                <div class="timetable-item">공강시간</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="timetable">
+        <div class="timetable-item timetable-header">금요일</div>
+        {% for i in range(data | length) %}
+            {% if data[i][0] == '5' %}
+                <div class="timetable-item">{{ data[i][1] }}</div>
+            {% else %}
+                <div class="timetable-item">공강시간</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+</div>
+
+<ul>
+                
+    <form action="/matchtime", method="post">
+    <center>
+        <button type="submit" class="btn btn-primary btn-lg">겹치는 일정 보기</button>
+    </form>
+    </center>
+</ul>
+
+<div class="body">
+    <center>
+    {% for i in range(schedule | length) %}
+        <div class="body">[{{day[i]}}] 약속 가능 시간 : {{schedule[i]}}</div>
+    {% endfor %}
+    </center>
+</div>
+
+<ul>
+    <center>
+    <form action="/main", method="post">
+        <button type="submit" class="btn btn-primary btn-lg">홈으로 돌아가기</button>
+    </form>
+    </center>
+</ul>
+
+
+<!--
+    <div class="timetable-item">체육</div>
+    <div class="timetable-item">국어</div>
+    <div class="timetable-item">화학</div>
+    <div class="timetable-item">역사</div>
+    <div class="timetable-item">미술</div>
+
+    <div class="timetable-item">역사</div>
+    <div class="timetable-item">수학</div>
+    <div class="timetable-item">정치</div>
+    <div class="timetable-item">음악</div>
+    <div class="timetable-item">경제</div>
+
+    <div class="timetable-item">사회</div>
+    <div class="timetable-item">영어</div>
+    <div class="timetable-item">프로그래밍</div>
+    <div class="timetable-item">프로그래밍</div>
+    <div class="timetable-item">사회</div>
+</div>
+-->
+</body>
+</html>
