@@ -32,6 +32,7 @@ def login():
         id = request.form.get('id') 
         password = request.form.get('password') 
         print(id, password)  
+        random_numbers = random.sample(range(1,20),15)
 
 
         auth_inform = kras_login_system.new_login(id, password)
@@ -46,7 +47,7 @@ def login():
             session["username"] = auth_inform[0] #세션에 저장
             session["userid"] = auth_inform[0][1]
             print(next)
-            return render_template('index.html', state = next, user = auth_inform[0][0],recommend_friend = friend_system_data, time_table_list=time_table_list,k=random_numbers)
+            return render_template('main.html', state = next, user = auth_inform[0][0],recommend_friend = friend_system_data, time_table_list=time_table_list,k=random_numbers)
         
         else:
             status_code = "password_incorrect"
@@ -59,18 +60,6 @@ def friendrecommend():
     friend_system_data = friend_system.recommend(None)
     print("데이터",friend_system_data)
     return render_template('index.html',recommend_friend = friend_system_data, k=random_numbers,)
-
-@app.route('/main',methods=['POST'])
-def main():
-    next = '로그인성공'
-    user = session.get('username')
-    random_numbers = random.sample(range(1,20),15)
-    print(user[0])
-    friend_system_data = friend_system.recommend(None)
-    if "username" in session: 
-        return render_template('index.html',state = next,recommend_friend = friend_system_data, k=random_numbers,time_table_list=time_table_list,user = user[0])
-    else:
-        return render_template('login.html')
 
 @app.route('/timetable',methods=['POST'])
 def timetable():
@@ -126,6 +115,7 @@ def fix():
     send_number = phone_num.phone_num(user)
     numbers = ''.join(filter(str.isdigit, send_number[0]))
 
+    
     print(numbers)
     
     data = {
@@ -134,7 +124,7 @@ def fix():
                     'to': numbers,
                     'from': SEND.SENDNUMBER,
                     'subject': 'KRAS-약속 확정안내',
-                    'text': f'안녕하세요 :) \n{data} 약속이 확정되었습니다. \n서비스를 이용해주셔서 감사합니다.\nActiveJang'
+                    'text': f'안녕하세요 :) \n<{data}> 약속이 확정되었습니다. \n서비스를 이용해주셔서 감사합니다.\nActiveJang'
                 }
             ]
         }
@@ -144,14 +134,71 @@ def fix():
     
     return '전송완료'
 
-@app.route('/check', methods = ['POST'])
-def check():
-    captcha_response = request.form.get('h-captcha-response')
-    if hcaptcha.verify(captcha_response):
-        return "성공"
+@app.route('/main')
+def loading_spinner():
+    return render_template('loading_spinner.html')
+
+
+@app.route('/redirect', methods = ['POST'])
+#메인에서 바로 접속하면 오류가 발생하여, 한번 거치고 접근.
+def goto_redirect():
+    #return redirect(url_for('login'))
+    return render_template('render.html')
+
+@app.route('/main', methods=['POST'])
+def main():
+    next = '로그인성공'
+    user = session.get('username')
+    random_numbers = random.sample(range(1,20),15)
+  
+    print(random_numbers)
+    friend_system_data = friend_system.recommend(None)
+    if "username" in session: 
+        return render_template('main.html',state = next, k=random_numbers)
     else:
-        return "실패"
-    
+        return render_template('login.html')
+
+@app.route('/lightning_meet', methods = ['POST'])
+def lightning_meet():
+    return render_template('lightning_meet.html')
+
+@app.route('/regular_meet', methods = ['POST'])
+def regular_meet():
+    return render_template('regular_meet.html')
+
+@app.route('/friend', methods = ['POST'])
+def friend():
+    return render_template('friend.html')
+
+@app.route('/emergency', methods = ['POST'])
+def emergency():
+    return render_template('emergency.html')
+
+@app.route('/mypage', methods = ['POST'])
+def mypage():
+    return render_template('mypage.html')
+
+@app.route('/schedule_page', methods = ['POST'])
+def schedule_page():
+    return render_template('schedule_page.html')
+
+@app.route('/meet_successful', methods = ['POST'])
+def meet_successful():
+    return render_template('meet_successful.html')
+
+@app.route('/meet_unsuceessful', methods = ['POST'])
+def meet_unsucessful():
+    return render_template('meet_unsuccessful.html')
+
+@app.route('/chatting', methods = ['POST'])
+def chatting():
+    return render_template('chatting.html')
+
+@app.route('/add_sch')
+def add_sch():
+    print('서비스를 추가합니다.')
+
+    return '추가완료'
 
 if __name__ == '__main__':
     app.run('0.0.0.0', debug=True, port=FLASK_ENUM.PORT)
