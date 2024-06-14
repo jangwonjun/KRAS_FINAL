@@ -80,7 +80,7 @@ class time_table_system():
         fourtime = original_values["fourtime"]
         fivetime = original_values["fivetime"]
 
-        return (result,final_rest_schedule)
+        return (result,final_rest_schedule,self.id)
         
 
 

@@ -32,7 +32,7 @@ def login():
         id = request.form.get('id') 
         password = request.form.get('password') 
         print(id, password)  
-        random_numbers = random.sample(range(1,20),15)
+        random_numbers = random.sample(range(1,15),14)
 
 
         auth_inform = kras_login_system.new_login(id, password)
@@ -59,7 +59,7 @@ def login():
 def friendrecommend():
     friend_system_data = friend_system.recommend(None)
     print("데이터",friend_system_data)
-    return render_template('index.html',recommend_friend = friend_system_data, k=random_numbers,)
+    return render_template('index.html',recommend_friend = friend_system_data, k=random_numbers)
 
 @app.route('/timetable',methods=['POST'])
 def timetable():
@@ -77,6 +77,7 @@ def matchtime():
     kras_timetable_system = time_table_system()
     timetable_data = kras_timetable_system.table_data(user)[0]
     rest_time = kras_timetable_system.table_data(user)[1]
+    user = kras_timetable_system.table_data(user)[2]
     another_user = matchsystem()
     print("User의 잔여시간",rest_time)
     target_user = another_user.search_friend()
@@ -98,7 +99,7 @@ def matchtime():
 
     day = ["월요일","화요일","수요일","목요일","금요일"]
 
-    return render_template('time_table.html',user=user,data=timetable_data,schedule=tmp_data,day=day)
+    return render_template('time_table.html',user=user,data=timetable_data,schedule=tmp_data,day=day,target_point=user)
 
 @app.route('/fix',methods=['GET','POST'])
 def fix():
@@ -108,7 +109,6 @@ def fix():
     
     print(data)
 
-    
     user = session.get('username')[1]
     print("사용자",user)
     phone_num = matchsystem()
@@ -134,29 +134,25 @@ def fix():
     
     return '전송완료'
 
+@app.route('/basic_inf', methods=['GET','POST'])
+def basic_inf():
+    if request.method == 'POST':
+        phone_number = request.form.get('phone-number')
+        print(phone_number)
+        session['phone_number'] = phone_number
+        return redirect(url_for('goto_redirect'))
+    
+    return render_template('basic_inf.html')
+
+
+@app.route('/redirect', methods = ['GET','POST'])
+#메인에서 바로 접속하면 오류가 발생하여, 한번 거치고 접근.
+def goto_redirect():
+    return render_template('render.html')
+
 @app.route('/main')
 def loading_spinner():
     return render_template('loading_spinner.html')
-
-
-@app.route('/redirect', methods = ['POST'])
-#메인에서 바로 접속하면 오류가 발생하여, 한번 거치고 접근.
-def goto_redirect():
-    #return redirect(url_for('login'))
-    return render_template('render.html')
-
-@app.route('/main', methods=['POST'])
-def main():
-    next = '로그인성공'
-    user = session.get('username')
-    random_numbers = random.sample(range(1,20),15)
-  
-    print(random_numbers)
-    friend_system_data = friend_system.recommend(None)
-    if "username" in session: 
-        return render_template('main.html',state = next, k=random_numbers)
-    else:
-        return render_template('login.html')
 
 @app.route('/lightning_meet', methods = ['POST'])
 def lightning_meet():
@@ -176,7 +172,29 @@ def emergency():
 
 @app.route('/mypage', methods = ['POST'])
 def mypage():
+    data = '선배님 탕후루 사주세요!'
+    
+    number = session.get('phone_number')
+    print(number)
+    data = {
+            'messages': [
+                {
+                    'to': number,
+                    'from': SEND.SENDNUMBER,
+                    'subject': 'KRAS-약속 확정안내',
+                    'text': f'안녕하세요 :) \n<{data}> 약속이 확정되었습니다. \n서비스를 이용해주셔서 감사합니다.\nActiveJang'
+                }
+            ]
+        }
+        
+    res = message.send_many(data)
+    print(json.dumps(json.loads(res.text), indent=2, ensure_ascii=False))
+
     return render_template('mypage.html')
+
+@app.route('/mypage_2', methods = ['POST'])
+def mypage_2():
+    return redirect(url_for('fix'))
 
 @app.route('/schedule_page', methods = ['POST'])
 def schedule_page():
@@ -193,12 +211,6 @@ def meet_unsucessful():
 @app.route('/chatting', methods = ['POST'])
 def chatting():
     return render_template('chatting.html')
-
-@app.route('/add_sch')
-def add_sch():
-    print('서비스를 추가합니다.')
-
-    return '추가완료'
 
 if __name__ == '__main__':
     app.run('0.0.0.0', debug=True, port=FLASK_ENUM.PORT)

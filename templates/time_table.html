@@ -101,6 +101,10 @@
 
 <div class="body">
     <center>
+    {{target_point}}님과
+    </center>
+    
+    <center>
     {% for i in range(schedule | length) %}
         <div class="body">[{{day[i]}}] 약속 가능 시간 : {{schedule[i]}}</div>
     {% endfor %}
